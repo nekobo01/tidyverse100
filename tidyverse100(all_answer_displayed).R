@@ -111,6 +111,9 @@ length(df)
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 colnames(df)
 
+# [Tips] rownames(df) で行名の確認
+# [Tips] rownames(a)=NULL で事実上のreset_index(1から連番に戻す)
+
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # 【10】ベクトルから不要な要素の削除
 # 問題：dfのカラム名の一覧からSurvivedを除いたリストを作成してください。
@@ -156,6 +159,9 @@ add(5,10)
 # 問題：name=c("Tanaka","Suzuki"),age=c(15,16)を持つデータフレームtmpを作成してください。
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 tmp = data.frame(name=c("Tanaka","Suzuki"),age=c(15,16))
+
+# [Tips] data.frame(name = df1$name , df1[features])の形で、
+# df1のfeaturesを抽出し、name列を追加するという処理ができる.
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # 【15】ショートカット
@@ -876,6 +882,9 @@ ggplot(data = df, mapping = aes(x=Age,y=Fare,color=Sex))+
   theme_classic(base_size = 14,base_family = "serif")
 
 # [Tips]theme_*は複数存在するので好みのものを見つけておくとよい。base_familyはフォントのこと。
+# [Tips]theme(legend.position = "none",
+#        axis.title.x = element_blank(),
+#        axis.title.y = element_blank() とすることで凡例、X軸ラベル、y軸ラベルを削除できる。
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # 【94】相関ヒートマップ
@@ -911,6 +920,8 @@ ggplot(data = df, mapping = aes(x=Age,y=Fare,color=Sex))+
   geom_point() +
   geom_smooth(mapping = aes(group = factor(Sex)),method = "lm",se = TRUE)+
   geom_vline(xintercept = 40)
+
+# [Tips] geom_abline(intercept = …, slope = …,linetype = "dotdash")で任意の傾きの直線が引ける
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # 【97】回帰直線の追加(特定の範囲の切り出し)
