@@ -441,7 +441,8 @@ df %>% distinct(Cabin,Ticket.keep_all = T)
 colSums(is.na(df)) 
 
 # [Tips]colSumsは対象のdata.frame,カラムの合計値を算出する
-
+# [Tipe]変数が多い場合見づらいので以下の形で降順にするとよい
+# data.frame(missing_cnt = colSums(is.na(df))) %>% arrange(desc(missing_cnt))
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # 【47】NAの個数の確認 {library(skim)}
 # 問題：library(skim)を使って、dfのカラムごとの欠損値の個数を確認してください。
