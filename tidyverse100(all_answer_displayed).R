@@ -67,9 +67,25 @@ tail(df ,n = 10)
 mode(df$Age)
 class(df)
 
-# [Tips] 戻り値のイメージ
-# mode：数値numericや文字列characterなど格納されている要素の型
-# class：data.frameなどオブジェクト自体の型
+# [Tips] データ型の詳細
+
+# 1.basic type(オブジェクトの型)
+
+# 確認方法 mode()関数,typeof()関数
+# 例 vector, list, function 等
+# 注意点 vectorのときはvectorとは表示されず、vectorに含まれる要素のtypeが表示される
+
+# 2.vector型に含まれる要素の型
+
+# 例 logical(0/1の二値), integer(整数), double(小数を含む実数), numeric(数値全般), complex, character, raw
+# 注意点 typeof()ではintegerとdoubleは区別されるがmodeではnumericとまとめて表示される
+
+# 3.オブジェクトが持つ属性(ラベル情報)
+
+# 確認方法 class()関数
+# 例 factor, data.frame, tbl_df, matrix, array 等
+# 注意点 matrix, arrayに関してはclass属性を持たないが,matrix, arrayとして表示される
+# class属性を持たない場合、要素のデータ型が表示される
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # 【6】データ構造型の確認
@@ -79,7 +95,7 @@ is.vector(df)
 is.list(df)
 is.data.frame(df)
 
-# [Tips]data.frame型はリスト型の1種として実装されています。
+# [Tips] data.frame型はリスト型の1種として実装されています。
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # 【7】データ型の変換
@@ -91,9 +107,9 @@ mode(df$Parch)
 # [Tips]型変換をする主な関数
 # as.numeric	  実数に変換する
 # as.integer	  整数に変換する
-# as.complex	  複素数に変換する
 # as.character	文字列に変換する
 # as.logical	  理論値に変換する
+# as.matrix     マトリクス型に変換する
 # as.factor	    順序なし因子に変換する
 # as.ordered	  順序あり因子に変換する
 # as_tibble     data.frameをtibbleに変換する
