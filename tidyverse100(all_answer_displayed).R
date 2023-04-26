@@ -286,11 +286,11 @@ df %>%
 df %>% 
   select(contains("P"))
 
-# [Tips]主なヘルパ関数
-#starts_with  任意の文字列から始まる
-#contains     任意の文字列を含む
-#everything   全ての列を選択
-
+# [Tips]主なヘルパ関数(複数のカラムを簡単に指定できる)
+# starts_with  任意の文字列から始まる
+# contains     任意の文字列を含む
+# everything   全ての列を選択
+ 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # 【27】特定の文字列が含まれるデータの抽出
 # 問題：dfのname列に[Mrs]が含まれるデータを抽出してください。
@@ -348,7 +348,8 @@ df %>%
   mutate(over60 = if_else(Age > 60,1,0))
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# 【35】任意の列の値を置換する
+# 【35】任意の列の値を
+する
 # 問題：dfのsex列にてmale→0、それ以外→1に置換してください。
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 df %>%
@@ -369,6 +370,20 @@ df %>%
   mutate(Embarked = as.numeric(Embarked))
 
 # [Tips]case_whenでは元と同じ型で一度出力する必要があり、その後as.numericで数値型に直している
+
+# [Tips]複数列に同時に同じ処理をしたい場合はapply関数
+# apply(df,1or2,function) dfに対して1(行),2(列)ごとにfunctionする
+
+# df[to_enc_col] =
+#  apply(df[to_enc_col],2,function(x){
+#    x = case_when(
+#      x == "C" ~ "1",
+#      x == "Q" ~ "2",
+#      x == "S" ~ "3",
+#      TRUE ~ as.character(x)
+#    )
+#    as.numeric(x)
+#    })
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # 【37】丸め表示
@@ -457,8 +472,14 @@ df %>% distinct(Cabin,Ticket.keep_all = T)
 colSums(is.na(df)) 
 
 # [Tips]colSumsは対象のdata.frame,カラムの合計値を算出する
+
 # [Tipe]変数が多い場合見づらいので以下の形で降順にするとよい
-# data.frame(missing_cnt = colSums(is.na(df))) %>% arrange(desc(missing_cnt))
+# data.frame(missing_cnt = colSums(is.na(df))) %>% filter(missing_cnt > 0) %>% arrange(desc(missing_cnt))
+
+# [Tips] 欠損値の可視化用ライブラリnaniar
+# missing_col = row.names(data.frame(missing_cnt = colSums(is.na(df))) %>% filter(missing_cnt > 0))
+# gg_miss_var(df %>% select(missing_col), show_pct = TRUE)
+
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # 【47】NAの個数の確認 {library(skim)}
 # 問題：library(skim)を使って、dfのカラムごとの欠損値の個数を確認してください。
@@ -586,6 +607,8 @@ head(df)
 
 # [Tips] as.factorで順序を持った因子型に変換した後、as.numericを使い数値のみ取得
 
+# [Tips] 条件に応じた値の置換に関しては【36】を参照すること
+
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # 【62】One-hotエンコーディング
 # 問題：dfのSex列をOne-hotエンコーディングしてください。
@@ -595,6 +618,30 @@ df %>%
   pivot_wider(names_from = "Sex",
               values_from = "dummy",
               values_fill = 0) #NAを指定の値に置換する
+
+# [Tips] recipesパッケージ::step_dummy()を使った方法
+
+# library(recipes)
+# df_rec =　
+# recipe(x = df , formula = target_col ~ .) %>% 
+# step_dummy(all_nominal_predictors()) %>% 
+# prep() %>% 
+# bake(new_data = NULL)
+
+# [Tips] step_*()関数内で使えるヘルパ関数
+
+# start_with()   列名の接頭語で取捨選択（列名の頭にある共通の文字列などを認識させて選択）
+# ends_with()    列名の接尾語で取捨選択（列名の後ろにある共通の文字列などを認識させて選択）
+# contains()     指定した文字列が含まれる列を取捨選択
+# matches()      正規表現で列を取捨選択
+# everything()   すべての列を取捨選択
+# all_of()       与えられた変数名とすべて合致する変数の組み合わせ
+# any_of()       与えられた変数名と合致する変数.合致しないものは無視
+# all_predictors モデル式の説明変数
+# all_numeric_predictors 数値型のすべての説明変数
+# all_nominal_predictors 文字列型,factor型のすべての説明変数
+# has_role       role
+# has_type       type
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # 【63】正規化
