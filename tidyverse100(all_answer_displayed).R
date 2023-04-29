@@ -404,7 +404,8 @@ df %>%
   rename(class = Pclass,
          parch = Parch)
 
-# [Tips]selectでselect(新列名 = 旧列名)とする形でも可
+# [Tips] selectでselect(新列名 = 旧列名)とする形でも可
+# [Tips] colnames(df) = names(list_data) の形も可. namesはベクトル型のインデックスを取得する.
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # 【39】並び替え
