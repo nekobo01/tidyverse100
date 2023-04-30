@@ -259,6 +259,9 @@ df %>%
 df %>% 
   filter(Sex == "female" & Age >= 40)
 
+# [Tips] 同一カラム内の複数の値を条件付ける場合、
+# filter (Sex == c('male','female'))のようにc()でまとめても可
+
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # 【23】複数条件のいずれかを満たすデータの抽出
 # 問題：dfのage列の値が40以上またはsex列がfemaleのいずれか一方は満たすデータを抽出してください。
@@ -772,7 +775,7 @@ wider = df %>%
 wider
 
 # [Tips]関数pivot_widerの引数の説明
-# ・names_from：group_byのように基準となるグループ列
+# ・names_from：group_byのように基準となるグループ列,集計関数を使わない場合、単に新しいカラムとしてユニークな値が追加される
 # ・values_from：実際に表示してほしい値
 # ・values_fn：集計関数を使いたい場合に設定
 
@@ -790,6 +793,8 @@ wider %>%
 # ・cols：対象列の指定
 # ・names_to：対象列のカラム名を1列にまとめたとき、その列の名称
 # ・values_to：対象列のデータを1列にまとめたとき、その列の名称
+
+# [Tips] ヘルパ関数を上手に使おう - 【26】【62】を参考
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # 【78】window関数- row_number
@@ -846,7 +851,8 @@ ggplot(data = df, mapping = aes(x=Age))+
 ggplot(data = df, mapping = aes(x=Age ,fill=Sex))+ 
   geom_histogram(position = "identity" ,alpha = 0.5)
 
-# [Tips]geom_histogram はstat = "count"がデフォルト設定されており自動でcountされます。
+# [Tips] geom_histogram はstat = "count"がデフォルト設定されており自動でcountされます。
+# [Tips] aes()の引数におけるfill = ...は塗りつぶしの色分け条件を指定します。同様にcolor = ...は枠などの線の色分け条件を指定できます。
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # 【83】棒グラフ
@@ -880,7 +886,7 @@ ggplot(data = df, mapping = aes(x=Embarked,y=Fare,fill=Sex))+
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # 【86】積み上げ棒グラフ(対 集計済データ)
-# 問題：① dfのmbarked,Sex別にFareの合計(変数名：Fare_Sum)を求めて、df_として格納してください。
+# 問題：① dfのEmbarked,Sex別にFareの合計(変数名：Fare_Sum)を求めて、df_として格納してください。
 # ②df_のEmbarkedごとにFareの合計をSexで色分けし、積み上げ棒グラフで表示してください。
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 df_ = df %>% group_by(Embarked,Sex) %>% summarise(Fare_Sum = sum(Fare))
@@ -1003,6 +1009,7 @@ ggplot(data = df, mapping = aes(x=Age,y=Fare,color=Sex))+
   geom_vline(xintercept = 40)
 
 # [Tips] geom_abline(intercept = …, slope = …,linetype = "dotdash")で任意の傾きの直線が引ける
+# [Tips] グループごとの形で対応する場合、aes()の引数で group = ...を指定する
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # 【97】回帰直線の追加(特定の範囲の切り出し)
