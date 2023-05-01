@@ -24,8 +24,11 @@ df = read.csv('input/data1.csv'
 
 # [Tips]ファイル選択ダイアログから選択する場合はread.csv(file.choose())
 
-# [Tips]現在のworking directoryを確認するには getwd()
-# [Tips]現在のworking directoryを変更するには Sessionタブ> Set Working Directory > Choose Directory
+# [Tips] 現在のworking directoryを確認するには getwd()
+# [Tips] 現在のworking directoryを変更するには Sessionタブ> Set Working Directory > Choose Directory
+
+# [Tips] git上で公開されているcsvの読み込み
+# git上でcsvのディレクトリを開く > Rawをクリック > 遷移先のURLをread.csv('https://....csv') の形で読み込み
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # 【2】xlsxファイルの読み込み 
