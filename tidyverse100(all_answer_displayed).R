@@ -132,6 +132,7 @@ length(df)
 colnames(df)
 
 # [Tips] rownames(df) で行名(行インデックス)の確認 - 文字列型で抽出されるので必要に応じてas.numeric処理
+# [Tips] rownames(df) = df$... で...をrawIndexとして設定
 # [Tips] rownames(a)=NULL で事実上のreset_index(1から連番に戻す)
 
 
