@@ -118,6 +118,9 @@ mode(df$Parch)
 # as.ordered	  順序あり因子に変換する
 # as_tibble     data.frameをtibbleに変換する
 
+# [Tips] mutate()を使った型変換
+# df %>% mutate(X = as.integer(X))
+
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # 【8】dfサイズの確認
 # 問題：dfのサイズ(行数と列数)、サイズ(行数)、サイズ(列数)を表示してください。
@@ -148,6 +151,7 @@ c(x_col[-which(x_col %in% "Survived")])
 # 左辺の要素が右辺の要素とマッチしていたらTRUEを返す二項演算子
 # 具体的には x_col = ["PassengerId","Survived","Pclass",… ,"Embarked"]に対して、
 # [FALSE,TRUE,FALSE,…,FALSE]という同じ長さのベクトルが返ってくる
+# filter()関数でも使える
 
 # [Tips] which
 # 指定された条件を満たす(=TRUE)要素のインデックス番号を返す関数
@@ -264,8 +268,8 @@ df %>%
 df %>% 
   filter(Sex == "female" & Age >= 40)
 
-# [Tips] 同一カラム内の複数の値を条件付ける場合、
-# filter (Sex == c('male','female'))のようにc()でまとめても可
+# [Tips] 同一カラム内の複数の値を条件付ける場合の %in%
+# filter (Sex %in% c('male','female'))のようにc()でまとめても可
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # 【23】複数条件のいずれかを満たすデータの抽出
