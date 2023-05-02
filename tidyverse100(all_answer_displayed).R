@@ -560,10 +560,20 @@ tolower(df$Name)
 str_replace_all(df$Sex, pattern="female", replacement="Python")
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# 【55】文字列の一部削除
+# 【55】文字列から指定した文字のみ削除
 # 問題：dfのname列1行目の「Braund, Mr. Owen Harris」の「Harris」を消去してください。
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 str_replace(df[1,"Name"],pattern="Harris", replacement="")
+
+# [Tips] {base_R}文字列の一部抽出
+# substring("aaavvv",first = 1,last = 3) 開始地点と終了地点を指定
+
+# [Tips] {stringrパッケージ}文字列の一部抽出
+# library(stringr)
+# str_sub("aaavvv" , start = -3, end = -1) 開始地点と終了地点を指定,負の値も使用可能
+
+# dfに適用
+# df %>% mutate('year' = str_sub(date,1,4)
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # 【56】文字列の結合
