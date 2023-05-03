@@ -961,7 +961,23 @@ ggplot(data = df, mapping = aes(x=Embarked,y=Fare))+
   geom_bar(stat  = "summary" ,fun = "mean")+
   geom_jitter(mapping = aes(color = Embarked))
 
-# [Tips]geom_jitterは描画位置を散らした散布図を直接出力してくれる。
+# [Tips] geom_jitterは描画位置を散らした散布図を直接出力してくれる。
+
+# [Tips] Raincloud plotをggdistパッケージを使って作成する
+
+# library(ggdist)
+# ggplot(iris, aes(x = Sepal.Length, y = Species,color =Species)) +
+#  # 確率密度分布
+#  stat_halfeye(point_color = NA, # 点推定を削除
+#               .width = 0, # 信頼区間の線分を削除
+#               height = 0.6,# グラフの高さ調整
+#               position = position_nudge(y = 0.3))+ # グラフ自体を移動させる
+# # jitterを使った散布図
+#  geom_jitter(width = 0, height = 0.1)+ # 分布の散らばり幅を限定しておく
+# # 箱ひげ図
+# geom_boxplot(position = position_nudge(y = 0.2),# グラフ自体を移動させる
+#                 width = 0.1,
+#         outlier.shape = NA) # 外れ値をプロットしない
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # 【92】散布図のラベリング
