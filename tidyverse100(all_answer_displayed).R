@@ -1,10 +1,16 @@
 # 準備 ---------------------------------------------------------------
 # 以下のライブラリを読み込んでから以降の設問へ進んでください。
 
-install.packages("tidyverse") #初回のみ
-install.packages("dplyr") #初回のみ
+# install.packages("tidyverse") #初回のみ
+# install.packages("dplyr") #初回のみ
 library(tidyverse)
 library(dplyr)
+
+[Tips] コンフリクト防止に以下のパッケージを設定しておくことをオススメします。
+
+library(conflicted) # コンフリクト時エラーメッセージ
+conflict_scout() # コンフリクト状況一覧
+conflict_prefer(name = "select", winner = "dplyr") # 優先パッケージを指定
 
 # 基礎 ---------------------------------------------------------------
 
