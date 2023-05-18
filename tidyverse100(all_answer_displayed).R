@@ -6,7 +6,7 @@
 library(tidyverse)
 library(dplyr)
 
-[Tips] コンフリクト防止に以下のパッケージを設定しておくことをオススメします。
+# [Tips] コンフリクト防止に以下のパッケージを設定しておくことをオススメします。
 
 library(conflicted) # コンフリクト時エラーメッセージ
 conflict_scout() # コンフリクト状況一覧
