@@ -849,11 +849,16 @@ df %>%
 # ・Window関数は、複数の入力レコードに対し、レコード毎に1つのレコードを出力します。
 
 # 可視化 ---------------------------------------------------------------
-#「geom_*()関数で引数にstatを取る方法」と「stat_*()関数で引数にgeomを取る方法」があり、
-# ここでは前者に統一します。
-#
+#「geom_*()関数で引数にstatを取る方法」と「stat_*()関数で引数にgeomを取る方法」がありここでは前者に統一します。
+
 # ggplot()+geom_*()が基本の形
 # data = …, mappinnng = aes(x=…,y=…)をggplot関数またはgeom_*関数内のいずれかで指定します。
+
+# [Tips]geom_*で使われる主な引数
+# stat(集計方法) =  "bin" "identity(そのまま)" "count" "sum" "mean" "density" "summary"など
+# position(並べ方) = "stack"(積み上げ) ,"fill"(100%積み上げ),"identity"(配置調整しない),"dodge"(横並び)
+
+# stat = "summary",fun = 統計量 の形で集計しつつ可視化できる
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # 【80】ヒストグラム
@@ -862,15 +867,10 @@ df %>%
 ggplot(data = df, mapping = aes(x=Age))+
   geom_histogram()
 
-# [Tips]geom_*で使われることのある主な引数
-# stat(集計方法) =  "bin" "identity(そのまま)" "count" "sum" "mean" など
-# position(並べ方) = "stack"(積み上げ) ,"fill"(100%積み上げ),"identity"(配置調整しない),"dodge"(横並び)
-
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # 【81】密度推定曲線
 # 問題：dfのAge列の密度推定曲線を作成してください。
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
 ggplot(data = df, mapping = aes(x=Age))+
   geom_density(stat = "density")
 
@@ -881,7 +881,7 @@ ggplot(data = df, mapping = aes(x=Age))+
 ggplot(data = df, mapping = aes(x=Age ,fill=Sex))+ 
   geom_histogram(position = "identity" ,alpha = 0.5)
 
-# [Tips] geom_histogram はstat = "count"がデフォルト設定されており自動でcountされます。
+# [Tips] geom_histogram は= "count"がデフォルト設定されており自動でcountされます。
 # [Tips] aes()の引数におけるfill = ...は塗りつぶしの色分け条件を指定します。同様にcolor = ...は枠などの線の色分け条件を指定できます。
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
