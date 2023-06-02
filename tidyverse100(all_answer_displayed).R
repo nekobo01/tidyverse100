@@ -408,6 +408,9 @@ df %>%
 #    as.numeric(x)
 #    })
 
+# [Tips] 1行だけの簡易置換はifelseが便利
+# 例 . df %>% mutate(Weekly_Sales = ifelse(Weekly_Sales<0, 0, Weekly_Sales))
+
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # 【37】丸め表示
 # 問題：dfのfare列すべてを小数点以下で丸めてください。
