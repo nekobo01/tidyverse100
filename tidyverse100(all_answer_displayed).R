@@ -595,7 +595,9 @@ str_replace(df[1,"Name"],pattern="Harris", replacement="")
 # 問題：dfにage(num型)とembarked(chr型)の列を「_」で結合した列を追加(列名はtest)してください。
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 df %>%
-  mutate(test = paste(Age,"_",Embarked ))
+  mutate(test = paste(Age,Embarked,sep = "_"))
+
+# [Tips] paste(Age,"_",Embarked)でもいいがスペースが入り見づらい
 
 # マージと連結 ---------------------------------------------------------------
 
