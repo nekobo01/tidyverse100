@@ -79,23 +79,26 @@ class(df)
 
 # [Tips] データ型の詳細
 
-# 1.basic type(オブジェクトの型)
-
+##### 1.basic type(オブジェクトの型)
 # 確認方法 mode()関数,typeof()関数
 # 例 vector, list, function 等
-# 注意点 vectorのときはvectorとは表示されず、vectorに含まれる要素のtypeが表示される
+# 注意点 vectorのときはvectorとは表示されず、vectorに含まれる要素の型が表示される
 
-# 2.vector型に含まれる要素の型
-
+#### 2.vector型に含まれる要素の型
 # 例 logical(0/1の二値), integer(整数), double(小数を含む実数), numeric(数値全般), complex, character, raw
 # 注意点 typeof()ではintegerとdoubleは区別されるがmodeではnumericとまとめて表示される
 
-# 3.オブジェクトが持つ属性(ラベル情報)
-
+#### 3.オブジェクトが持つ属性(ラベル情報)
 # 確認方法 class()関数
 # 例 factor, data.frame, tbl_df, matrix, array 等
 # 注意点 matrix, arrayに関してはclass属性を持たないが,matrix, arrayとして表示される
 # class属性を持たない場合、要素のデータ型が表示される
+
+#### 4.日付型 
+# 時刻を扱う型で正式名は「POSIXt 型,POSIXct 型,POSIXlt 型」の3種
+# as.Date(date_column, format = "%d/%m/%Y"))
+# lubridate パッケージを使用すると簡単 ※【7】を参考
+# lubridate::dmy(date_column)
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # 【6】データ構造型の確認
@@ -149,7 +152,6 @@ colnames(df)
 # [Tips] rownames(df) で行名(行インデックス)の確認 - 文字列型で抽出されるので必要に応じてas.numeric処理
 # [Tips] rownames(df) = df$... で...をrawIndexとして設定
 # [Tips] rownames(a)=NULL で事実上のreset_index(1から連番に戻す)
-
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # 【10】ベクトルから不要な要素の削除
@@ -574,7 +576,7 @@ tolower(df$Name)
 str_replace_all(df$Sex, pattern="female", replacement="Python")
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# 【55】文字列から指定した文字のみ削除
+# 【55】文字列の一部抽出
 # 問題：dfのname列1行目の「Braund, Mr. Owen Harris」の「Harris」を消去してください。
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 str_replace(df[1,"Name"],pattern="Harris", replacement="")
@@ -585,10 +587,8 @@ str_replace(df[1,"Name"],pattern="Harris", replacement="")
 # [Tips] {stringrパッケージ}文字列の一部抽出
 # library(stringr)
 # str_sub("aaavvv" , start = -3, end = -1) 開始地点と終了地点を指定,負の値も使用可能
-
-# dfに適用
-# df %>% mutate('year' = str_sub(date,1,4)
-
+# str_locate：指定パターンにマッチする箇所の文字数を返す , start end の2値が戻り値 ※最初の箇所以外も見たい場合はstr_locate_all()
+# str_subset：指定パターンを含む文字列を返す
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # 【56】文字列の結合
