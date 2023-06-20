@@ -36,6 +36,9 @@ df = read.csv('input/data1.csv'
 # [Tips] git上で公開されているcsvの読み込み
 # git上でcsvのディレクトリを開く > Rawをクリック > 遷移先のURLをread.csv('https://....csv') の形で読み込み
 
+# [Tips] csvの出力
+# write.csv(summary_data, "summary_iris.csv")
+
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # 【2】xlsxファイルの読み込み 
 # 問題：library(readxl)を使ってinputフォルダ内のdata2.xlsxの
