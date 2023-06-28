@@ -207,7 +207,19 @@ add(5,10)
 tmp = data.frame(name=c("Tanaka","Suzuki"),age=c(15,16))
 
 # [Tips] data.frame(name = df1$name , df1[features])の形で、
-# df1のfeaturesを抽出し、name列を追加するという処理ができる.
+# df1のfeaturesを抽出し、name列を追加するという処理ができる
+
+# [Tips] 空のdfの生成と繰り返し処理for,rbindの組み合わせ
+# df = data.frame() 
+# counter = 0
+# for (i in 1:5){ 処理
+#   df = rbind(df,処理で生成されたdf)
+#   counter = counter +1
+#   print(counter)
+#   }
+
+counter = counter +1
+print(counter)
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # 【15】ショートカット
@@ -443,7 +455,9 @@ df %>%
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 df %>% arrange(desc(Age)) 
 
-# [Tips]arrange(df,列名)で昇順
+# [Tips] arrange(df,列名)で昇順
+# [Tips] 複数条件かつ降順のときはdescが2つ必要なので注意
+# data %>% arrange(desc(id),desc(ds))
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # 【40】転置
