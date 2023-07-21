@@ -37,7 +37,7 @@ df = read.csv('input/data1.csv'
 # git上でcsvのディレクトリを開く > Rawをクリック > 遷移先のURLをread.csv('https://....csv') の形で読み込み
 
 # [Tips] csvの出力
-# write.csv(summary_data, "summary_iris.csv")
+# write.csv(summary_data, "summary_iris.csv", fileEncoding = "CP932")
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # 【2】xlsxファイルの読み込み 
@@ -615,6 +615,7 @@ df %>%
   mutate(test = paste(Age,Embarked,sep = "_"))
 
 # [Tips] paste(Age,"_",Embarked)でもいいがスペースが入り見づらい
+# [Tips] sep = "" と指定することで文字列を詰めた状態で抽出することが可能
 
 # マージと連結 ---------------------------------------------------------------
 
