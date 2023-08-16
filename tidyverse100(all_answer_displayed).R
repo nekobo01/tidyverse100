@@ -205,9 +205,6 @@ add(5,10)
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 tmp = data.frame(name=c("Tanaka","Suzuki"),age=c(15,16))
 
-# [Tips] data.frame(name = df1$name , df1[features])の形で、
-# df1のfeaturesを抽出し、name列を追加するという処理ができる
-
 # [Tips] 空のdfの生成と繰り返し処理for,rbindの組み合わせ
 # df = data.frame() 
 # counter = 0
@@ -216,9 +213,8 @@ tmp = data.frame(name=c("Tanaka","Suzuki"),age=c(15,16))
 #   counter = counter +1
 #   print(counter)
 #   }
-
-counter = counter +1
-print(counter)
+# counter = counter +1
+# print(counter)
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # 【15】ショートカット
@@ -227,10 +223,12 @@ print(counter)
 # ①pipe演算子(`%>%`)を作成する
 # ②コメントアウトする
 # ③セクションを作成する
+# ④ ctrl+zで戻ってから「進む」(redo)
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # ①ctrl+shift+M 
 # ②Ctrl+Shift+C 
 # ③Ctrl+Shift+R 
+# ④Ctrl+Shift+Z
 
 # [Tips]セクションは折りたためたり、コンソール画面上でジャンプしやすかったりと非常に強力！
 
@@ -656,6 +654,10 @@ dim(b)
 
 # [Tips]rbindのrはrawを維持した状態での結合、つまり下に付与される形
 #　　　 cbindのcはcolumnを維持した状態での結合、つまり右に付与される形
+
+# [Tips] 任意の配列をdfに追加する
+# data.frame(df2 , name = df$name) という書き方で
+# df2にname列を追加するという処理ができる
 
 # ラベリングとスケーリング ---------------------------------------------------------------
 
