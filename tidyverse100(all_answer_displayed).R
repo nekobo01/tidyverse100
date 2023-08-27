@@ -885,8 +885,7 @@ wider %>%
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 df %>% 
   arrange((desc(Fare))) %>% 
-  group_by(Sex) %>% 
-  mutate(num = row_number()) %>% 
+  mutate(num = row_number(),.by = Sex) %>% 
   filter(num >=1 & num <=3)
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -950,7 +949,7 @@ ggplot(data = df, mapping = aes(x=Embarked,y=Fare))+
 # 【84】降順表示(棒グラフ)
 # 問題：dfのEmbarkedごとにFareの合計を棒グラフで降順に表示してください。
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-df_ = df %>% group_by(Embarked) %>% summarise(Fare_Sum = sum(Fare)) %>% arrange(desc(Fare_Sum))
+df_ = df %>% summarise(Fare_Sum = sum(Fare),.by = Embarked) %>% arrange(desc(Fare_Sum))
 
 ggplot(data = df_, mapping = aes(x = fct_reorder(Embarked,Fare_Sum, .desc = TRUE),
                                  y = Fare_Sum))+
@@ -972,7 +971,7 @@ ggplot(data = df, mapping = aes(x=Embarked,y=Fare,fill=Sex))+
 # 問題：① dfのEmbarked,Sex別にFareの合計(変数名：Fare_Sum)を求めて、df_として格納してください。
 # ②df_のEmbarkedごとにFareの合計をSexで色分けし、積み上げ棒グラフで表示してください。
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-df_ = df %>% group_by(Embarked,Sex) %>% summarise(Fare_Sum = sum(Fare))
+df_ = df %>% summarise(Fare_Sum = sum(Fare),.by=c(Embarked,Sex))
 
 ggplot(data = df_, mapping = aes(x=Embarked,y=Fare_Sum,fill=Sex))+
   geom_bar(stat  = "identity" ,position = "stack" ,alpha = 0.5) 
