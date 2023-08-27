@@ -246,8 +246,9 @@ tmp = df %>% select(Name)
 is.vector(tmp)
 is.data.frame(tmp) 
 
-# [Tips] selectを使って1列を指定した場合、そのままdata.frame型で抽出される
-# [Tips] 1列だけの選択のとき、pull関数を使うことでvector型として抽出が可能
+# [Tips] selectを使って1列を指定した場合、そのままdata.frame型で抽出
+
+# [Tips] 1列だけの選択のとき、pull関数を使うことでvector型として抽出
 # df %>% pull(Name)
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -332,9 +333,9 @@ df %>%
   select(contains("P"))
 
 # [Tips]主なヘルパ関数(複数のカラムを簡単に指定できる)
-# starts_with  任意の文字列から始まる
-# contains     任意の文字列を含む
-# everything   全ての列を選択
+# starts_with('hoge')  任意の文字列から始まる
+# contains('hoge')     任意の文字列を含む
+# everything('hoge')   全ての列を選択
  
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # 【27】特定の文字列が含まれるデータの抽出
@@ -424,19 +425,20 @@ df %>%
 
 # [Tips]case_whenでは元と同じ型で一度出力する必要があり、その後as.numericで数値型に直している
 
-# [Tips]複数列に同時に同じ処理をしたい場合はapply関数
-# apply(df,1or2,function) dfに対して1(行),2(列)ごとにfunctionする
+# [Tips]複数列に同じ関数処理をしたい場合
 
+# 対応方法1.apply()関数
+# apply(df,方向フラグ,function) 行方向に適用する場合は1、列方向に適用する場合は2を指定
+#
 # df[to_enc_col] =
 #  apply(df[to_enc_col],2,function(x){
-#    x = case_when(
-#      x == "C" ~ "1",
-#      x == "Q" ~ "2",
-#      x == "S" ~ "3",
-#      TRUE ~ as.character(x)
-#    )
-#    as.numeric(x)
+#    x = str_to_upper(x) # 大文字にする関数
 #    })
+
+# 対応方法2.across()関数
+# df %>% mutate(across(
+#                  .cols = c("species", "sex"), # 関数を適用する列を指定
+#                  .fns = str_to_upper) # 適用する関数名
 
 # [Tips] 1行だけの簡易置換はifelseが便利
 # 例 . df %>% mutate(Weekly_Sales = ifelse(Weekly_Sales<0, 0, Weekly_Sales))
@@ -503,13 +505,14 @@ skim(df) # n_unique列を確認する
 # 【44】ユニークな要素とその出現回数の確認
 # 問題：dfのembarked列の要素と出現回数を確認してください。
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-df %>% 
-  group_by(Embarked) %>% 
-  summarise(hoge=n())
+df %>% summarise(hoge=n(),.by = Embarked)
 
-# [Tips]group_by + summarise()の形
+# [Tips] 集計関数n() はデータの行数をカウントします。
+
+# [Tips] group_by を使った方法(現在は非推奨)
 # group_byでグループ化された状態でsummarise(xxx = 集計関数())でグループ別に集計できます。
-# 集計関数n() はデータの行数をカウントします。
+# 例. df %>% group_by(Embarked) %>% summarise(hoge=n(),by = Embarked)
+# 現在は summarise()の引数 .byで指定することが推奨されています。
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # 【45】重複の削除
@@ -571,8 +574,11 @@ df %>%
 # 問題：dfのAge列の欠損値をSex別のAgeの平均値で補完してください。
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 df %>%
-  group_by(Sex) %>% 
-  mutate(new_age = if_else(is.na(Age),mean(Age,na.rm=T),Age))
+  mutate(new_age = if_else(is.na(Age),mean(Age,na.rm=T),Age),
+         .by = Sex)
+
+# [Tips] mutate()でグループごとに値を追加する方法
+# mutateもgroupを引数に取ることが可能
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # 【51】欠損値の補完(直前の値を採用) - LOCF法
@@ -606,6 +612,8 @@ tolower(df$Name)
 # 問題：dfのsex列に含まれる「female」という単語を「Python」に置換してください。
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 str_replace_all(df$Sex, pattern="female", replacement="Python")
+
+# [Tips]
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # 【55】文字列の一部抽出
@@ -734,7 +742,6 @@ scale(df$Age)
 # 【64】min-MAXスケーリング(0-1)
 # 問題：dfのAge列を最小値0最大値1となるようにmin-MAXスケーリングしてください。
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
 scale(df$Age,
       center = min(df$Age), 
       scale = (max(df$Age) - min(df$Age))) 
@@ -763,20 +770,20 @@ skim(df)
 # dfSummary(dataset) %>% view()
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# 【67】group_by(合計)
+# 【67】グループごとの集計(合計)
 # 問題：dfのEmbarkedとSexの掛け合わせごとにFareの合計を集計し、df_として保存してください。
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 df_ = df %>%
-  group_by(Embarked,Sex) %>%
-  summarise(Fare_Sum = sum(Fare))
+  summarise(Fare_Sum = sum(Fare),.by = c(Embarked,Sex))
+
+# [Tips] .byで複数条件を指定するときはc(hoge,hoge)の形
+# [Tips] group_by()は現在は推奨されていない
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # 【68】平均値
 # 問題：dfのsex別にage列の平均値を求めてください。
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-df %>% 
-  group_by(Sex) %>% 
-  summarise(Ave = mean(Age, na.rm=T)) 
+df %>% summarise(Ave = mean(Age, na.rm=T),.by = Sex) 
 
 # [Tips]na.rm=TはNAを集計対象から除く処理
 
@@ -784,27 +791,25 @@ df %>%
 # 【69】中央値
 # 問題：dfのsex別にdfのage列の中央値を求めてください。
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-df %>% 
-  group_by(Sex) %>% 
-  summarise(Med = median(Age, na.rm=T))
+df %>% summarise(Med = median(Age, na.rm=T),.by = Sex)
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # 【70】最大値、最小値
 # 問題：dfのSex別にage列の最大値、最小値を1つのdata.frameで示してください。
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 df %>% 
-  group_by(Sex) %>% 
   summarise(MAX = max(Age, na.rm=T),
-            MIN = min(Age, na.rm=T))
+            MIN = min(Age, na.rm=T),
+            .by = Sex)
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # 【71】標準偏差、分散
 # 問題：dfのSex別にage列の標準偏差、分散を1つのdata.frameで示してください。
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 df %>% 
-  group_by(Sex) %>% 
   summarise(sd = sd(Age, na.rm=T),
-            var = var(Age, na.rm=T))
+            var = var(Age, na.rm=T),
+            .by = Sex)
 
 # [Tips] 共分散の計算は cov(x,y) 
 
@@ -812,11 +817,13 @@ df %>%
 # 【72】相関係数
 # 問題：dfのnumeric型同士の相関を求めてください。
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-cor(df %>% 
-      select(where(is.numeric)))
+cor(df %>% select(where(is.numeric)))
 
 # [Tips] with(df , cor(...,...)) という書き方も可
 # with()は第1引数のdfの項目からオブジェクトを取得し、第2引数に与えられた処理を実行する
+
+# [Tips] select(where(列指定))
+# select_if()やselect_at()が以前は使われていたものの、現在はwhereを使う形が推奨
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # 【73】パーセンタイル
