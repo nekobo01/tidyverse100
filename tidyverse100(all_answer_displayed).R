@@ -3,6 +3,7 @@
 
 library(tidyverse)
 library(dplyr)
+library(ggplot2)
 
 # [Tips] コンフリクト防止に以下のパッケージを設定しておくことをオススメします。
 
