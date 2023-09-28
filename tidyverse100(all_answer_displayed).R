@@ -202,6 +202,9 @@ add(5,10)
 # pythonに慣れていると in list型としたくなりますが、数値を設定する点に注意
 # リストでも動くかは要検証
 
+# [Tips] 条件分岐 if
+# if (i == j) {x = 1} else {x = 2} が基本の形
+
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # 【14】data.frameの生成
 # 問題：name=c("Tanaka","Suzuki"),age=c(15,16)を持つデータフレームtmpを作成してください。
@@ -1015,7 +1018,7 @@ ggplot(data = df, mapping = aes(x=Embarked,y=Fare,fill=Embarked))+
 # [Tips] 四分位範囲を表示しない場合、draw_quantilesは不要
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# 【91】棒グラフ+散布図
+# 【91】棒グラフ+散布図 (複合グラフ)
 # 問題：dfのEmbarked別にFareの平均値を棒グラフで示し、その上に散布図を表示してください。
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ggplot(data = df, mapping = aes(x=Embarked,y=Fare))+
@@ -1025,7 +1028,6 @@ ggplot(data = df, mapping = aes(x=Embarked,y=Fare))+
 # [Tips] geom_jitterは描画位置を散らした散布図を直接出力してくれる。
 
 # [Tips] Raincloud plotをggdistパッケージを使って作成する
-
 # library(ggdist)
 # ggplot(iris, aes(x = Sepal.Length, y = Species,color =Species)) +
 #  # 確率密度分布
@@ -1039,6 +1041,12 @@ ggplot(data = df, mapping = aes(x=Embarked,y=Fare))+
 # geom_boxplot(position = position_nudge(y = 0.2),# グラフ自体を移動させる
 #                 width = 0.1,
 #         outlier.shape = NA) # 外れ値をプロットしない
+
+# [Tips] 散布図 + ヒストグラム
+# install.packages('pacman')
+# pacman::p_load(ggExtra)
+# scatter_plot = ggplot(data = df,mapping = aes(y=aaa,x=bbb)) + geom_point()
+# ggMarginal(scatter_plot,type = 'histogram',fill = 'lightblue')
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # 【92】散布図のラベリング
@@ -1106,7 +1114,7 @@ ggplot(data = df,
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ggplot(data = df, mapping = aes(x=Age,y=Fare,color=Sex))+
   geom_point() +
-  geom_smooth(mapping = aes(group = factor(Sex)),method = "lm",se = TRUE)+
+  geom_smooth(mapping = aes(group = factor(Sex)),method = "lm",se = TRUE,color = 'red',linetype = 'dashed')+
   geom_vline(xintercept = 40)
 
 # [Tips] geom_abline(intercept = …, slope = …,linetype = "dotdash")で任意の傾きの直線が引ける
@@ -1151,4 +1159,4 @@ ggplot(data = df, mapping = aes(x=Age,y=Fare,color=Sex))+
   geom_point()+
   facet_grid(.~Sex)
 
-# [Tips]facet_grid(列名①~列名②)でパネルの分割水準となるカテゴリを指定。特に指定がない場合 . を入力。
+# [Tips] facet_grid(列名①~列名②)でパネルの分割水準となるカテゴリを指定。特に指定がない場合 . を入力。
