@@ -766,6 +766,9 @@ scale(df$Age,
 #          scale = max(x) - min(x)
 #          scale(x, center, scale)
 #          })}
+#
+# df_normalized = cbind(scale.df(df),# 数値型：1-0スケーリング
+#                       df %>% select(!where(is.numeric))) # 数値型以外抽出
 
 # 集計・統計 ---------------------------------------------------------------
 
