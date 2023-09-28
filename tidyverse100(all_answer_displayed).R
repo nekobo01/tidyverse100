@@ -436,8 +436,9 @@ df %>%
 #
 # df[to_enc_col] =
 #  apply(df[to_enc_col],2,function(x){
-#    x = str_to_upper(x) # 大文字にする関数
-#    })
+#    x = str_to_upper(x)}) # 大文字にする関数
+#    
+# [Tips] 数値型以外の文字列型などが対象dfに含まれている場合、文字列型などで返ってくるので注意
 
 # 対応方法2.across()関数
 # df %>% mutate(across(
@@ -755,6 +756,16 @@ scale(df$Age,
 # center：数値ベクトルの場合は対応する値を引き、Trueの場合は全体平均値を引く
 # scale：数値ベクトルの場合は対応する値で割り、Trueの場合は全体分散で割る
 # つまりcenter,scaleともにTrue(デフォルト)の場合は標準化が行われる
+
+# [Tips] data.frameを一括で1-0スケーリング
+# scale.df = function(df){
+#   apply(df %>% select(where(is.numeric)),
+#         2,
+#         function(x){
+#          center = min(x)
+#          scale = max(x) - min(x)
+#          scale(x, center, scale)
+#          })}
 
 # 集計・統計 ---------------------------------------------------------------
 
