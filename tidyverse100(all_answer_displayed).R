@@ -770,6 +770,9 @@ scale(df$Age,
 # df_normalized = cbind(scale.df(df),# 数値型：1-0スケーリング
 #                       df %>% select(!where(is.numeric))) # 数値型以外抽出
 
+# [Tips] idごとにスケーリング
+# df_normalized = df %>% mutate(scaled_val = scale(val),.by = id)
+
 # 集計・統計 ---------------------------------------------------------------
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
