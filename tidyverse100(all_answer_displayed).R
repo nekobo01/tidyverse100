@@ -451,6 +451,7 @@ df %>%
 
 # [Tips] 1行だけの簡易置換はifelseが便利
 # 例 . df %>% mutate(Weekly_Sales = ifelse(Weekly_Sales<0, 0, Weekly_Sales))
+# 例 . df %>% mutate(Weekly_Sales = ifelse(data_flag ==1, NA, Weekly_Sales)) 特定のデータをNAに置換
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # 【37】丸め表示
