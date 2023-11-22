@@ -36,7 +36,9 @@ df = read.csv('input/data1.csv'
 # git上でcsvのディレクトリを開く > Rawをクリック > 遷移先のURLをread.csv('https://....csv') の形で読み込み
 
 # [Tips] csvの出力
-# write.csv(summary_data, "summary_iris.csv", fileEncoding = "CP932")
+# write.csv(summary_data, "summary_iris.csv", fileEncoding = "CP932",na = "",row.names = FALSE)
+# na = 欠損値に表示される文字列を指定。デフォルトだと"NA"
+# row.names = 行番号を表示しない
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # 【2】xlsxファイルの読み込み 
