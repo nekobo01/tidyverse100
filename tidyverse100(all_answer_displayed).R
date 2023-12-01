@@ -419,6 +419,10 @@ df %>%
 df %>%
   mutate(Sex = if_else(Sex == "male",0,1))
 
+# [Tips] factorを使った変換
+# df$status = factor(df$status, levels = c(1, 2), labels = c("survived", "dead"))
+# 1,2という値がsurvived,deadに置換される
+
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # 【36】場合分けした値の置換
 # 問題：dfのEmbarked列にてc→1、Q→2、S→3に置換し,データ型をnumeric型に変更してください。
