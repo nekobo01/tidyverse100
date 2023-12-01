@@ -1116,6 +1116,9 @@ ggplot(data = df, mapping = aes(x=Age,y=Fare,color=Sex))+
 # [Tips] テキスト挿入
 # text(x=365,y=1,"1年経過")
 
+# [Tips] 凡例追加
+# legend(x = "bottomleft", legend = legends, col = colors, lty = ltypes)
+
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # 【94】相関ヒートマップ
 # 問題：library(corrplot)を使ってdfの数値型全体の相関ヒートマップ(少数第二位まで表示)を示してください。
