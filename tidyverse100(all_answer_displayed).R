@@ -1111,7 +1111,10 @@ ggplot(data = df, mapping = aes(x=Age,y=Fare,color=Sex))+
 # [Tips]theme_*は複数存在するので好みのものを見つけておくとよい。base_familyはフォントのこと。
 # [Tips]theme(legend.position = "none",
 #        axis.title.x = element_blank(),
-#        axis.title.y = element_blank() とすることで凡例、X軸ラベル、y軸ラベルを削除できる。
+#        axis.title.y = element_blank() とすることで凡例、X軸ラベル、y軸ラベルを削除できる
+
+# [Tips] テキスト挿入
+# text(x=365,y=1,"1年経過")
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # 【94】相関ヒートマップ
@@ -1151,6 +1154,9 @@ ggplot(data = df, mapping = aes(x=Age,y=Fare,color=Sex))+
 
 # [Tips] geom_abline(intercept = …, slope = …,linetype = "dotdash")で任意の傾きの直線が引ける
 # [Tips] グループごとの形で対応する場合、aes()の引数で group = ...を指定する
+
+# [Tips] ggplots2を使わないときの補助線
+# abline(v = 365, lty = 2, col = "blue")
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # 【97】回帰直線の追加(特定の範囲の切り出し)
