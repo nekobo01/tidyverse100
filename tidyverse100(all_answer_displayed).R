@@ -103,6 +103,7 @@ class(df)
 #### 4.日付型 
 # 時刻を扱う型で正式名は「POSIXt 型,POSIXct 型,POSIXlt 型」の3種
 # as.Date(date_column, format = "%d/%m/%Y"))
+# デフォルトで内部で開始は右記になっている(..., origin="1970-01-01")
 # lubridate パッケージを使用すると簡単 ※【7】を参考
 # lubridate::dmy(date_column)
 
