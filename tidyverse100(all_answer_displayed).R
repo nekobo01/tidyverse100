@@ -582,7 +582,7 @@ df %>%
   replace_na(replace = list(Sex="female"))
 
 # [Tips] 一括で欠損値を0に置換したい場合
-# df %>% mutate_all(~replace(., is.na(.), 0)) を使う
+# df %>% mutate_all(~ifelse(is.na(.), 0, .)) を使う
 # mutate_all() はmap()ファミリーの関数を内部的に使用しており、
 # 各列に対してラムダ式「~ + 関数」を適用する.
 
