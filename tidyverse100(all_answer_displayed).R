@@ -4,9 +4,6 @@
 library(tidyverse)
 library(dplyr)
 library(ggplot2)
-
-# [Tips] コンフリクト防止に以下のパッケージを設定しておくことをオススメします。
-
 library(conflicted) # コンフリクト時エラーメッセージ
 conflict_scout() # コンフリクト状況一覧
 conflict_prefer(name = "select", winner = "dplyr") # 優先パッケージを指定
@@ -18,22 +15,16 @@ conflict_prefer(name = "select", winner = "dplyr") # 優先パッケージを指
 # 問題：inputフォルダ内のdata1.csvを相対パスで読み込み、変数dfとして保存してください。
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 df = read.csv('input/data1.csv'
-              ,fileEncoding = "cp932"
-              ,na.strings=c("", NULL,"NA")
-              ,stringsAsFactors=F)
+              ,fileEncoding = "cp932" # 文字化け防止
+              ,na.strings=c("", NULL,"NA") #指定した文字を欠損値として読み込む
+              ,stringsAsFactors=F) #文字列のfactor型への自動変換を防ぐ
 
-# [Tips]read.csvの主な引数
-# fileEncoding：文字化けを防ぐためfileEncodinをする
-# na.strings=c("", NULL,"NA") #指定した文字を欠損値として読み込む
-# stringsAsFactors=F #文字列はfactor型に自動変換されるが、それを防ぐ
-
-# [Tips]ファイル選択ダイアログから選択する場合はread.csv(file.choose())
-
+# [Tips] ファイル選択ダイアログから選択する場合はread.csv(file.choose())
 # [Tips] 現在のworking directoryを確認するには getwd()
 # [Tips] 現在のworking directoryを変更するには Sessionタブ> Set Working Directory > Choose Directory
 
 # [Tips] git上で公開されているcsvの読み込み
-# git上でcsvのディレクトリを開く > Rawをクリック > 遷移先のURLをread.csv('https://....csv') の形で読み込み
+# git上でcsvのディレクトリを開く > Rawをクリック > 遷移先のURLをread.csv('https://....csv') で指定
 
 # [Tips] csvの出力
 # write.csv(summary_data, "summary_iris.csv", fileEncoding = "CP932",na = "",row.names = FALSE)
@@ -45,7 +36,6 @@ df = read.csv('input/data1.csv'
 # 問題：library(readxl)を使ってinputフォルダ内のdata2.xlsxの
 #　    「table」という名前のシートを相対パスで読み込み、変数df2として保存してください。
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-install.packages("readxl") #初回のみ
 library(readxl)
 df2 = read_xlsx('input/data2.xlsx',
                 sheet = "table",
@@ -62,7 +52,7 @@ df2 = read_xlsx('input/data2.xlsx',
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 df_copy = df
 
-# [Tips]pythonの場合、dfが変更されるとdf_copyの値も連動して更新されるが、Rの場合は更新されない。
+# [Tips] pythonの場合、dfが変更されるとdf_copyの値も連動して更新されるが、Rの場合は更新されない。
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # 【4】dfの確認
@@ -85,27 +75,25 @@ class(df)
 
 # [Tips] データ型の詳細
 
-##### 1.basic type(オブジェクトの型)
+# 1.basic type(オブジェクトの型)
 # 確認方法 mode()関数,typeof()関数
 # 例 vector, list, function 等
 # 注意点 vectorのときはvectorとは表示されず、vectorに含まれる要素の型が表示される
 
-#### 2.vector型に含まれる要素の型
+# 1-2.vector型に含まれる要素の型
 # 例 logical(0/1の二値), integer(整数), double(小数を含む実数), numeric(数値全般), complex, character, raw
 # 注意点 typeof()ではintegerとdoubleは区別されるがmodeではnumericとまとめて表示される
 
-#### 3.オブジェクトが持つ属性(ラベル情報)
+# 1-3.日付型 
+# 時刻を扱う型で正式名は「POSIXt 型,POSIXct 型,POSIXlt 型」の3種
+# デフォルトでの開始日の内部処理は右記(..., origin="1970-01-01")
+# lubridate パッケージを使用すると簡単 ※【7】を参考
+
+# 2.オブジェクトが持つ属性(ラベル情報)
 # 確認方法 class()関数
 # 例 factor, data.frame, tbl_df, matrix, array 等
 # 注意点 matrix, arrayに関してはclass属性を持たないが,matrix, arrayとして表示される
 # class属性を持たない場合、要素のデータ型が表示される
-
-#### 4.日付型 
-# 時刻を扱う型で正式名は「POSIXt 型,POSIXct 型,POSIXlt 型」の3種
-# as.Date(date_column, format = "%d/%m/%Y"))
-# デフォルトで内部で開始は右記になっている(..., origin="1970-01-01")
-# lubridate パッケージを使用すると簡単 ※【7】を参考
-# lubridate::dmy(date_column)
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # 【6】データ構造型の確認
@@ -137,9 +125,9 @@ mode(df$Parch)
 # [Tips] mutate()を使った型変換
 # df %>% mutate(X = as.integer(X))
 
-# [Tips] lubridateパッケージを使った日付型への変換
+# [Tips] lubridateパッケージ
 # make_date(year,month,day) 日付型のデータを生成する
-# ymd('2022,12,8') ⇒ [1] "2022-12-08"　とPOSIXクラス(日付型)に型変換する
+# ymd('2022,12,8') ⇒ [1] "2022-12-08"　POSIXクラス(日付型)に型変換する
 # 作成されたPOSIXクラスのデータはdate(),year(),month() などで数値を取得できる
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -156,12 +144,13 @@ length(df)
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 colnames(df)
 
-# [Tips] rownames(df) で行名(行インデックス)の確認 - 文字列型で抽出されるので必要に応じてas.numeric処理
-# [Tips] rownames(df) = df$... で...をrawIndexとして設定
-# [Tips] rownames(a)=NULL で事実上のreset_index(1から連番に戻す)
+# [Tips] rownames() 
+# rownames(df) 行名(行インデックス)の確認
+# rownames(df) = df$... で...をrawIndexとして設定
+# rownames(a)=NULL で疑似的なreset_index(1から連番に戻す)
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# 【10】ベクトルから不要な要素の削除
+# 【10】ベクトル(配列)から不要な要素の削除
 # 問題：dfのカラム名の一覧からSurvivedを除いたリストを作成してください。
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 x_col = c(colnames(df))
@@ -173,12 +162,16 @@ c(x_col[-which(x_col %in% "Survived")])
 # [FALSE,TRUE,FALSE,…,FALSE]という同じ長さのベクトルが返ってくる
 # filter()関数でも使える
 
-# [Tips] which
+# [Tips] which()
 # 指定された条件を満たす(=TRUE)要素のインデックス番号を返す関数
 # 具体的には [FALSE,TRUE,FALSE,…,FALSE]に対して、[2]というインデックス番号が返ってくる
 
 # [Tips] ベクトル[-n]
 # ベクトルからn番目の要素を削除する
+
+# [Tips] 複数要素の削除+特定の文字列を含むカラムの削除
+# …%in% c("aaa","bbb",str_subset(x_col,"hoge"))]) 
+# str_subsetは【55】を参照
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # 【11】変数の一括削除
@@ -201,13 +194,9 @@ help(read_excel)
 add = function(a,b){a+b}
 add(5,10)
 
-# [Tips] 繰り返し処理for
-# for (i in 1:100) {s = s + i} が基本の形
-# pythonに慣れていると in list型としたくなりますが、数値を設定する点に注意
-# リストでも動くかは要検証
-
-# [Tips] 条件分岐 if
-# if (i == j) {x = 1} else {x = 2} が基本の形
+# [Tips] 関数と組み合わせてよく使う処理：繰り返しforと条件分岐if
+# for (i in 1:100) {s = s + i} が基本の形.inの後ろはlist型ではなく数値
+# if (i == j) {x = 1} else {x = 2} が基本の形.
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # 【14】data.frameの生成
@@ -215,32 +204,26 @@ add(5,10)
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 tmp = data.frame(name=c("Tanaka","Suzuki"),age=c(15,16))
 
-# [Tips] 空のdfの生成と繰り返し処理for,rbindの組み合わせ
+# [Tips] 繰り返し処理の結果を新しいdata.frameに順に格納
 # df = data.frame() 
-# counter = 0
 # for (i in 1:5){ 処理
-#   df = rbind(df,処理で生成されたdf)
-#   counter = counter +1
-#   print(counter)
-#   }
-# counter = counter +1
-# print(counter)
+#   df = rbind(df,処理で生成されたdf)}
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # 【15】ショートカット
 # 問題：以下のショートカットキーを確認してください。
 
-# ①pipe演算子(`%>%`)を作成する
-# ②コメントアウトする
-# ③セクションを作成する
-# ④ ctrl+zで戻ってから「進む」(redo)
+# 1.pipe演算子(`%>%`)を作成
+# 2.コメントアウト
+# 3.セクションを作成する
+# 4.ctrl+zで戻ってから「進む」(redo)
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# ①ctrl+shift+M 
-# ②Ctrl+Shift+C 
-# ③Ctrl+Shift+R 
-# ④Ctrl+Shift+Z
+# 1.ctrl+shift+M 
+# 2.Ctrl+Shift+C 
+# 3.Ctrl+Shift+R 
+# 4.Ctrl+Shift+Z
 
-# [Tips]セクションは折りたためたり、コンソール画面上でジャンプしやすかったりと非常に強力！
+# [Tips]セクションは折りたためたり、コンソール画面上でジャンプしやすかったりと強力
 
 # 抽出 ---------------------------------------------------------------
 
@@ -253,11 +236,10 @@ tmp = df %>% select(Name)
 
 is.vector(tmp)
 is.data.frame(tmp) 
-
-# [Tips] selectを使って1列を指定した場合、そのままdata.frame型で抽出
-
-# [Tips] 1列だけの選択のとき、pull関数を使うことでvector型として抽出
-# df %>% pull(Name)
+       
+# [Tips] 1列を指定した場合のselect()とpull()
+# select  ：data.frame型で抽出
+# pull    ：vector型で抽出
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # 【17】列の抽出(*selectは使わない)
@@ -269,15 +251,17 @@ tmp = df[,"Name"]
 is.vector(tmp)
 is.data.frame(tmp) 
 
-# [Tips] [,…]を使って1列を指定した場合、自動的にベクトル型に変換される
-# [Tips] df$Name でも同義
+# [Tips] 1列を指定した場合のdf[,"hoge"]とdf$hoge
+# df[,"hoge"]：vector型で抽出
+# df$hoge    ：vector型で抽出
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # 【18】指定列以外の抽出
 # 問題：dfのName列以外の列を抽出してください。 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-df %>% 
-  select(-Name)
+df %>% select(-Name) 
+
+# [Tips] 複数列の指定は【30】を参照
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # 【19】複数列の抽出
@@ -332,8 +316,7 @@ df %>%
 # 【25】特定のカラムに任意の文字列が含まれるデータの抽出
 # 問題：dfのname列に[Mrs]が含まれるデータを抽出してください。
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-df %>% 
-  filter(str_detect(Name, "Mrs"))
+df %>% filter(str_detect(Name, "Mrs"))
 
 # [Tips] 特定のカラムから特定の文字数だけ抽出して新しいカラムを生成する ⇒ 【55】へ
 
@@ -353,8 +336,7 @@ df %>%
 # 【27】特定の文字列が含まれるデータの抽出
 # 問題：dfのname列に[Mrs]が含まれるデータを抽出してください。
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-df %>% 
-  filter(str_detect(Name, "Mrs"))
+df %>% filter(str_detect(Name, "Mrs"))
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # 【28】上位n・下位nの抽出
@@ -376,11 +358,11 @@ df %>%
 # 【30】不要列の削除(selectを用いた削除)
 # 問題：select関数を用いてdfからSibSpの列を削除してください。
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-df %>% 
-  select(-SibSp) 
+df %>% select(-SibSp) 
 
 # 複数カラムを削除する場合
-# select(-c(flag,id))
+# 1.df %>% select(-c(aaa,bbb,ccc))
+# 2.df %>% select(-aaa,-bbb,-ccc)
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # 【31】不要列の削除(NULLを用いた削除)
@@ -630,8 +612,6 @@ tolower(df$Name)
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 str_replace_all(df$Sex, pattern="female", replacement="Python")
 
-# [Tips] 【55】も文字列の置換
-
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # 【55】文字列の一部抽出
 # 問題：dfのname列1行目の「Braund, Mr. Owen Harris」の「Harris」を消去してください。
@@ -645,11 +625,8 @@ str_replace(df[1,"Name"],pattern="Harris", replacement="")
 # library(stringr)
 
 # str_sub("aaavvv" , start = -3, end = -1) 開始地点と終了地点を指定,負の値も使用可能
-# mutate(hoge = str_sub(train$huge,start = -3 ,end = -1)) hugeの後ろから3文字を抽出したhoge列を追加する
-
-# str_locate：指定パターンにマッチする箇所の文字数を返す , start end の2値が戻り値 ※最初の箇所以外も見たい場合はstr_locate_all()
-
-# str_subset：指定パターンを含む文字列を返す
+# 使用例.mutate(hoge = str_sub(train$huge,start = -3 ,end = -1)) 後ろから3文字を抽出した列を追加
+# str_subset(x_col,"hoge") 指定パターンを含む文字列を返す
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # 【56】文字列の結合
@@ -669,11 +646,11 @@ df %>%
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 df2 = left_join(df2,df,by="PassengerId")
 
-# [Tips]複数条件のとき
+# [Tips] 複数条件のとき
 # df %>% left_join(df2,by=c("c1","c2","c3")) # " "が必要
 
 # [Tips] 名前が違う複数の列でjoin
-# by = c("id1" = "ID1", "id2" = "ID2" )
+# … ,by = c("id1" = "ID1", "id2" = "ID2" )
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # 【58】内部結合
@@ -759,10 +736,17 @@ df %>%
 # 【63】正規化
 # 問題：dfのAge列を正規化(平均0,分散1)してください。
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-scale(df$Age)
+scale(df$Age,center=TRUE,scale=TRUE)
 
-# [Tips] 正規化はデータの縮尺を変更すること全般を指す。
-# 平均0,分散1の形に変換することを特に標準化と呼び、正規化の一種である。
+# [Tips] scale()
+# center：数値ベクトルの場合は対応する値を引き、Trueの場合は全体平均値を引く
+# scale：数値ベクトルの場合は対応する値で割り、Trueの場合は全体分散で割る
+# →center,scaleともにTrue(デフォルト)の場合は標準化
+
+# [Tips] 複数カラムを対象にした正規化
+# x_scale_col = colnames(df)[-which(colnames(df) %in% c("aaa","bbb"))] # 対象列を宣言
+# df[x_scale_col] = apply(df[x_scale_col],2,function(x){x = scale(x,center = TRUE, scale = TRUE)})
+
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # 【64】min-MAXスケーリング(0-1)
 # 問題：dfのAge列を最小値0最大値1となるようにmin-MAXスケーリングしてください。
@@ -771,23 +755,12 @@ scale(df$Age,
       center = min(df$Age), 
       scale = (max(df$Age) - min(df$Age))) 
 
-# [Tips]関数scaleの引数の説明
-# center：数値ベクトルの場合は対応する値を引き、Trueの場合は全体平均値を引く
-# scale：数値ベクトルの場合は対応する値で割り、Trueの場合は全体分散で割る
-# つまりcenter,scaleともにTrue(デフォルト)の場合は標準化が行われる
-
-# [Tips] data.frameを一括で1-0スケーリング
-# scale.df = function(df){
-#   apply(df %>% select(where(is.numeric)),
-#         2,
-#         function(x){
-#          center = min(x)
-#          scale = max(x) - min(x)
-#          scale(x, center, scale)
-#          })}
+# [Tips] 複数カラムを対象にした1-0スケーリング
+# scale.df = function(df){ # 関数の宣言
+#   apply(df %>% select(where(is.numeric)),2,function(x){
+#          center = min(x),scale = max(x) - min(x),scale(x, center, scale)})}
 #
-# df_normalized = cbind(scale.df(df),# 数値型：1-0スケーリング
-#                       df %>% select(!where(is.numeric))) # 数値型以外抽出
+# df_normalized = cbind(scale.df(df),df %>% select(!where(is.numeric))) # 数値型以外抽出
 
 # [Tips] idごとにスケーリング
 # df_normalized = df %>% mutate(scaled_val = scale(val),.by = id)
@@ -825,9 +798,15 @@ df_ = df %>%
 # 【68】平均値
 # 問題：dfのsex別にage列の平均値を求めてください。
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-df %>% summarise(Ave = mean(Age, na.rm=T),.by = Sex) 
+df %>% summarise(Ave = mean(Age, na.rm=T),.by = Sex) # na.rm=TはNAを集計対象から除いて平均を求めます
 
-# [Tips]na.rm=TはNAを集計対象から除く処理
+# [Tips] 複数カラムに対する一括での集計処理 3種
+# 1.df %>% summarize_all(funs(mean(.)))
+# 2.df %>% summarize_at(vars(Q1:Q5), funs(mean(.)))
+# 3.df %>% summarize_if(is.numeric, funs(mean(.)))
+
+# [Tips] 複数カラムに対して複数の集計処理をしたい場合
+# df %>% summarize_all(list(mean=mean,sd=sd))
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # 【69】中央値
@@ -891,33 +870,34 @@ rev(sort(table(df$Age)))[1]
 # 【76】データの縦持ち(tidy)⇒横持ち
 # 問題：dfのSex別にFareの平均をpivotを使って求めてください。
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
 wider = df %>%
   select(Sex,Fare) %>%
   pivot_wider(names_from = "Sex",
               values_from = "Fare",
               values_fn = mean)
-wider
 
-# [Tips]関数pivot_widerの引数の説明
-# ・names_from：表頭に移動させたいカラム名、ここで指定されていないカラムはそのまま表側に残る
-# ・values_from：実際に表示してほしい値
-# ・values_fn：集計関数を使いたい場合に設定
+# [Tips] pivot_wider()
+# names_from：表頭に移動させたいカラム名、ここで指定されていないカラムはそのまま表側に残る
+# values_from：実際に表示してほしい値
+# values_fn：集計関数を使いたい場合に設定
+
+# [Tips] raw.indexをカラムに変換する
+# df$index = row.names(df) # 列に含める
+# row.names(df) = NULL # reset_index
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # 【77】tidy data形式への変換(横持ち⇒縦持ち)
 # 問題：先ほど作成したwiderをpivotを使ってtidy data(縦持ち)にしてください。
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
 wider %>%
   pivot_longer(cols = c("male","female"),
                names_to = "sex_flag",
                values_to = )
 
 # [Tips]関数pivot_longerの引数の説明
-# ・cols：対象列の指定
-# ・names_to：対象列のカラム名を1列にまとめたとき、その列の名称
-# ・values_to：対象列のデータを1列にまとめたとき、その列の名称
+# cols：対象列の指定
+# names_to：対象列のカラム名を1列にまとめたとき、その列の名称
+# values_to：対象列のデータを1列にまとめたとき、その列の名称
 
 # [Tips] ヘルパ関数を上手に使おう - 【26】【62】を参考
 
