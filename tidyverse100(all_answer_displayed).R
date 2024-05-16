@@ -209,6 +209,16 @@ tmp = data.frame(name=c("Tanaka","Suzuki"),age=c(15,16))
 # for (i in 1:5){ 処理
 #   df = rbind(df,処理で生成されたdf)}
 
+# [Tips] 繰り返し処理におけるカラム指定 !!sym()
+# sym()は文字列をシンボルに、!!はシンボルを実際の変数名として扱う関数
+
+# tmp = data.frame() 
+# col_list = c('hoge','fuge')
+# for (i in 1:length(col_list)){
+# a = df %>% mutate(aa = case_when(!!sym(col_list[i] >1 ~1,TURE ~0)))
+# tmp = rbind(tmp,a)
+# } 
+
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # 【15】ショートカット
 # 問題：以下のショートカットキーを確認してください。
