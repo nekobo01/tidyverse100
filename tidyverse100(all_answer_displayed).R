@@ -124,8 +124,9 @@ mode(df$Parch)
 # as.ordered	  順序あり因子に変換する
 # as_tibble     data.frameをtibbleに変換する
 
-# [Tips] mutate()を使った型変換
+# [Tips] mutate(),mutate_at()を使った型変換
 # df %>% mutate(X = as.integer(X))
+# df %>% mutate_at(vars(col1, col2, col3), as.numeric)
 
 # [Tips] lubridateパッケージ
 # make_date(year,month,day) 日付型のデータを生成する
