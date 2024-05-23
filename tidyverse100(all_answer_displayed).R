@@ -113,8 +113,10 @@ df$Parch = as.character(df$Parch)
 mode(df$Parch)
 
 # [Tips]型変換をする主な関数
-# as.numeric	  実数に変換する
+# as.numeric	  数値型に変換する
 # as.integer	  整数に変換する
+# as.double     実数(小数点以下の値を含む)に変換する,
+#               int型,double型の区別はclass()ではなくastype()を使うこと
 # as.character	文字列に変換する
 # as.logical	  理論値に変換する
 # as.matrix     マトリクス型に変換する
