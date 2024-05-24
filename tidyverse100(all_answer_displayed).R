@@ -201,6 +201,13 @@ add(5,10)
 # for (i in 1:100) {s = s + i} が基本の形.inの後ろはlist型ではなく数値
 # if (i == j) {x = 1} else {x = 2} が基本の形.
 
+# [Tips] for文のお供にプログレスバー
+# library(tcltk)
+# pb = txtProgressBar(min = 1, max = n, style = 3)
+# for(i in 1:n){
+#  setTxtProgressBar(pb, i)
+# 処理}
+
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # 【14】data.frameの生成
 # 問題：name=c("Tanaka","Suzuki"),age=c(15,16)を持つデータフレームtmpを作成してください。
