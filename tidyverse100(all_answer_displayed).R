@@ -766,8 +766,15 @@ scale(df$Age,center=TRUE,scale=TRUE)
 # →center,scaleともにTrue(デフォルト)の場合は標準化
 
 # [Tips] 複数カラムを対象にした正規化
-# x_scale_col = colnames(df)[-which(colnames(df) %in% c("aaa","bbb"))] # 対象列を宣言
-# df[x_scale_col] = apply(df[x_scale_col],2,function(x){x = scale(x,center = TRUE, scale = TRUE)})
+
+# 数値列のみを選択
+# numeric_cols = sapply(df, is.numeric) # カラムごとにnumericかどうかの関数結果を1,0で取得
+# numeric_data = df[,numeric_cols]
+
+# scaled_data = apply(numeric_data,2,function(x){x = scale(x,center = TRUE, scale = TRUE)})
+
+# 結果を元のデータフレームに戻す
+df[, numeric_cols] = scaled_data
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # 【64】min-MAXスケーリング(0-1)
