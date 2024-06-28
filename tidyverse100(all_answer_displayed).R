@@ -7,6 +7,7 @@ library(ggplot2)
 library(conflicted) # コンフリクト時エラーメッセージ
 conflict_scout() # コンフリクト状況一覧
 conflict_prefer(name = "select", winner = "dplyr") # 優先パッケージを指定
+conflict_prefer(name = "filter", winner = "dplyr")
 
 # 基礎 ---------------------------------------------------------------
 
