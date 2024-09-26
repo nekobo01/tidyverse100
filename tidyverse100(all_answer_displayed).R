@@ -617,6 +617,7 @@ df %>% arrange(-Fare) %>% fill(Age)
 df = df %>% drop_na(Age)
 
 # [Tips]全カラムで一気にチェック・削除する場合はdrop_na(everything())
+# [Tips] na.omlt(df) という形もある
 
 # 文字列の操作 ---------------------------------------------------------------
 
