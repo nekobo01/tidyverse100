@@ -1177,6 +1177,9 @@ ggplot(data = df, mapping = aes(x=Age,y=Fare,color=Sex))+
 # [Tips] ggplots2を使わないときの補助線
 # abline(v = 365, lty = 2, col = "blue")
 
+# [Tips] 横線を引くgeom_hline(yintercept = 40,, linetype = "dotted")
+# geom_hline(yintercept = 40, linetype = "dotted")
+
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # 【97】回帰直線の追加(特定の範囲の切り出し)
 # 問題：dfのageが45-55歳のデータを抽出し、AgeとFareの散布図を表示し、性別ごとに回帰直線を引いてください。
