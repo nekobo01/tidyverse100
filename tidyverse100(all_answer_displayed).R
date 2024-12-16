@@ -186,6 +186,9 @@ c(x_col[-which(x_col %in% "Survived")])
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # rm(list = ls()) # 以降の設問でも変数は使用するためコメントアウトしています。
 
+# [Tips] 数値表示の際に省略表示(ex.e+12)をさせない方法
+# options(scipen = 999)
+
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # 【12】関数の詳細確認
 # 問題：read_excel関数の構文、引数などを確認してください。
@@ -975,7 +978,9 @@ df %>%
 # 問題：dfのAge列のヒストグラムを作成してください。
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ggplot(data = df, mapping = aes(x=Age))+
-  geom_histogram()
+  geom_histogram(position = "identity",alpha = 0.5)
+
+# [Tips] 重ねて分布の違いを見ることが多い.fill指定とalphaを忘れずに.
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # 【81】密度推定曲線
@@ -1023,6 +1028,13 @@ ggplot(data = df_, mapping = aes(x = fct_reorder(Embarked,Fare_Sum, .desc = TRUE
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ggplot(data = df, mapping = aes(x=Embarked,y=Fare,fill=Sex))+
   geom_bar(stat  = "summary" , position = "dodge" , fun = "sum") 
+
+# [Tips] dodgeで並べたい要素の順番を指定する
+# ggplot(data = df %>% mutate(cate = factor(cate,levels = c('hoge','huga'))))
+#        mapping(aes(x=aa,y=bb,fill=cate))+ 
+# geom_bar(stat = "identity", position = "dodge")
+
+# x軸の順番は【84】のfct_reorder()で変更
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # 【86】積み上げ棒グラフ(対 集計済データ)
@@ -1079,7 +1091,7 @@ ggplot(data = df, mapping = aes(x=Embarked,y=Fare))+
 
 # [Tips] geom_jitterは描画位置を散らした散布図を直接出力してくれる。
 
-# [Tips] Raincloud plotをggdistパッケージを使って作成する
+# [Tips] Raincloud plot
 # library(ggdist)
 # ggplot(iris, aes(x = Sepal.Length, y = Species,color =Species)) +
 #  # 確率密度分布
@@ -1126,9 +1138,13 @@ ggplot(data = df, mapping = aes(x=Age,y=Fare,color=Sex))+
        caption = "出典：xxx",
        x = "年齢",
        y = "料金")+
-  theme_classic(base_size = 14,base_family = "serif")
+  theme_classic(base_size = 14,
+                base_family = "serif")
 
 # [Tips]theme_*は複数存在するので好みのものを見つけておくとよい。base_familyはフォントのこと。
+# theme_bw():薄い格子、枠線あり
+# theme_classic():背景白、枠線なし
+
 # [Tips]theme(legend.position = "none",
 #        axis.title.x = element_blank(),
 #        axis.title.y = element_blank() とすることで凡例、X軸ラベル、y軸ラベルを削除できる
@@ -1162,7 +1178,7 @@ ggplot(data = df,
   scale_x_discrete(limits=c("S","C"))+
   scale_y_continuous(limits = c(0,100))
 
-# [Tips] scale_x_discrete(limit=C( ,…))は離散型のx軸で表示する「要素と順序」を指定できる
+# [Tips] scale_x_discrete(limit=c( ,…))は離散型のx軸で表示する「要素と順序」を指定できる
 # [Tips] scale_y_continuous(limits = c( ,…))は連続型のy軸で表示する「値の範囲」を指定できる
 # [Tips] scale_y_continuous(breaks=seq(0,420,30))は1引数と2引数の間に軸の値を表示する。その際、3引数が軸の値の間隔
 
@@ -1213,7 +1229,16 @@ ggplot()+
   geom_point(data = df,
              mapping = aes(x=Age,y=Fare,color=Sex))+
   geom_smooth(data = df %>% filter(Age >=45 & Age <=55),
-              mapping = aes(x=Age,y=Fare,group = factor(Sex),color=factor(Sex)),method = "lm",se = FALSE)
+              mapping = aes(x=Age,y=Fare,group = factor(Sex),color=factor(Sex)),
+              method = "lm",
+              se = FALSE)
+
+# [Tips] geom_smooth()の引数 method , se
+# method："lm", "glm", "gam", "loess"から選択.
+# se:信頼区間の図示
+
+# [Tips] 原点を通る回帰直線を引く
+# stat_smooth(method = "lm", se = FALSE, size = 0.3,formula = y ~ x - 1)
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # 【100】ファセット機能
@@ -1221,6 +1246,11 @@ ggplot()+
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ggplot(data = df, mapping = aes(x=Age,y=Fare,color=Sex))+
   geom_point()+
-  facet_grid(.~Sex)
+  facet_grid(.~Sex , scales = "free_x")
 
-# [Tips] facet_grid(列名①~列名②)でパネルの分割水準となるカテゴリを指定。特に指定がない場合 . を入力。
+# [Tips] facet_grid(列名~列名)でパネルの分割水準となるカテゴリを指定。特に指定がない場合 . を入力。
+
+# [Tips] 引数scales
+# free_x グラフごとにx軸の範囲を可変
+# free_y グラフごとにy軸の範囲を可変
+# free   グラフごとにx,y軸の範囲を可変
