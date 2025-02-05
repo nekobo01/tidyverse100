@@ -215,6 +215,10 @@ add(5,10)
 #  setTxtProgressBar(pb, i)
 # 処理}
 
+# [Tips] {}の省略
+# yhat = function(X.model, newdata){as.numeric(predict(X.model, newdata))} と指定する際、
+# yhat = function(X.model, newdata) as.numeric(predict(X.model, newdata)) のように{}を省略することがある
+
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # 【14】data.frameの生成
 # 問題：name=c("Tanaka","Suzuki"),age=c(15,16)を持つデータフレームtmpを作成してください。
