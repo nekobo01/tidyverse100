@@ -825,6 +825,11 @@ skim(df)
 # library(summarytools)
 # dfSummary(dataset) %>% view()
 
+# [Tips] ggpairsを使うとカテゴリ変数 , 連続変数の組み合わせで箱ひげ図、ヒストグラム、相関係数等を一気に確認できる
+library(GGally)
+df |>
+  ggpairs(aes(color = species))
+
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # 【67】グループごとの集計(合計)
 # 問題：dfのEmbarkedとSexの掛け合わせごとにFareの合計を集計し、df_として保存してください。
