@@ -8,6 +8,7 @@ library(conflicted) # コンフリクト時エラーメッセージ
 conflict_scout() # コンフリクト状況一覧
 conflict_prefer(name = "select", winner = "dplyr") # 優先パッケージを指定
 conflict_prefer(name = "filter", winner = "dplyr")
+conflict_prefer(name = "lag", winner = "dplyr")
 
 # 基礎 ---------------------------------------------------------------
 
@@ -312,8 +313,9 @@ df %>%
 # 【21】条件を満たさないデータの抽出
 # 問題：dfのsex列がfemaleではないデータのみ抽出してください。
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-df %>% 
-  filter(Sex != "female")
+df %>% filter(Sex != "female")
+
+# [Tips] hogeカラムがnullでない行を抽出するとき df %>% filter(!is.na(hoge))
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # 【22】複数条件をいずれも満たすデータの抽出
